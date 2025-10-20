@@ -1,0 +1,86 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net472</TargetFramework>
+        <AssemblyName>MuteTwitchVODTrack</AssemblyName>
+        <Product>MuteTwitchVODTrack</Product>
+        <Version>0.0.0</Version>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>latest</LangVersion>
+        <RestoreAdditionalProjectSources>
+            https://api.nuget.org/v3/index.json;
+            https://nuget.bepinex.dev/v3/index.json;
+            https://nuget.samboy.dev/v3/index.json
+        </RestoreAdditionalProjectSources>
+        <RootNamespace>MuteTwitchVODTrack</RootNamespace>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <DebugType>full</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <Optimize>false</Optimize>
+        <NoWarn>1701;1702;0162</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <DebugType>none</DebugType>
+        <DebugSymbols>false</DebugSymbols>
+        <Optimize>true</Optimize>
+        <NoWarn>1701;1702;0162</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="Exists('C:\Program Files (x86)\Steam\steamapps\common\Spin Rhythm')">
+        <BaseGameDir>C:\Program Files (x86)\Steam\steamapps\common\Spin Rhythm</BaseGameDir>
+    </PropertyGroup>
+    <PropertyGroup Condition="Exists('D:\Steam\steamapps\common\Spin Rhythm')">
+        <BaseGameDir>D:\Steam\steamapps\common\Spin Rhythm</BaseGameDir>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all"/>
+        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.5.0-beta.1">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="BepInEx.Core" Version="5.*"/>
+        <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*"/>
+        <PackageReference Include="UnityEngine.Modules" Version="6000.0.37" IncludeAssets="compile"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="Assembly-CSharp">
+            <HintPath>$(BaseGameDir)\SpinRhythm_Data\Managed\Assembly-CSharp.dll</HintPath>
+            <Publicize>true</Publicize>
+        </Reference>
+        <Reference Include="SSD.Game">
+            <HintPath>$(BaseGameDir)\SpinRhythm_Data\Managed\SSD.Game.dll</HintPath>
+            <Publicize>true</Publicize>
+        </Reference>
+        <Reference Include="Spin.Game.TrackPlaybackSystem">
+            <HintPath>$(BaseGameDir)\SpinRhythm_Data\Managed\Spin.Game.TrackPlaybackSystem.dll</HintPath>
+            <Publicize>true</Publicize>
+        </Reference>
+        <Reference Include="UnityEngine.UI">
+            <HintPath>$(BaseGameDir)\SpinRhythm_Data\Managed\UnityEngine.UI.dll</HintPath>
+            <Publicize>true</Publicize>
+        </Reference>
+        <!-- figure out a better way to reference this later -->
+        <Reference Include="Microsoft.CSharp">
+          <HintPath>..\..\..\.nuget\packages\microsoft.netframework.referenceassemblies.net472\1.0.2\build\.NETFramework\v4.7.2\Microsoft.CSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="SpinCore">
+            <HintPath>$(BaseGameDir)\BepInEx\plugins\SpinCore.dll</HintPath>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+            <HintPath>$(BaseGameDir)\BepInEx\plugins\Newtonsoft.Json.dll</HintPath>
+        </Reference>
+        <Reference Include="websocket-sharp">
+            <HintPath>$(BaseGameDir)\BepInEx\plugins\websocket-sharp.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all"/>
+    </ItemGroup>
+</Project>
