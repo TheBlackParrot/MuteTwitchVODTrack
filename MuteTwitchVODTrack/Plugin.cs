@@ -93,7 +93,7 @@ public partial class Plugin : BaseUnityPlugin
         if (StatusMenu.AudibleToggle == null)
         {
             // in case the menu hasn't initialized yet
-            ObsConnection.SendVodAudibleStatus();
+            _ = ObsConnection.SendVodAudibleStatus();
         }
     }
 

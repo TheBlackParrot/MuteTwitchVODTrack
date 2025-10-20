@@ -187,7 +187,7 @@ internal abstract class ObsConnection
         }
     }
 
-    public static void SendVodAudibleStatus()
+    public static async Task SendVodAudibleStatus()
     {
         ObsRequestMessageRoot request = new()
         {
@@ -204,6 +204,9 @@ internal abstract class ObsConnection
                 }
             }
         };
+
+        // delaying slightly to better time audible audio changes
+        await Task.Delay(500);
         
 #if DEBUG
         string serialized = JsonConvert.SerializeObject(request);

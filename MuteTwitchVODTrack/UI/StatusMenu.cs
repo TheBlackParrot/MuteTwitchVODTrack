@@ -97,7 +97,7 @@ internal static class StatusMenu
                 }
 
                 IsAudible = value;
-                ObsConnection.SendVodAudibleStatus();
+                _ = ObsConnection.SendVodAudibleStatus();
             });
         UpdateToggle();
         
