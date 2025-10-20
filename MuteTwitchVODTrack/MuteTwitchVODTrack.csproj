@@ -57,17 +57,8 @@
             <HintPath>$(BaseGameDir)\SpinRhythm_Data\Managed\SSD.Game.dll</HintPath>
             <Publicize>true</Publicize>
         </Reference>
-        <Reference Include="Spin.Game.TrackPlaybackSystem">
-            <HintPath>$(BaseGameDir)\SpinRhythm_Data\Managed\Spin.Game.TrackPlaybackSystem.dll</HintPath>
-            <Publicize>true</Publicize>
-        </Reference>
         <Reference Include="UnityEngine.UI">
             <HintPath>$(BaseGameDir)\SpinRhythm_Data\Managed\UnityEngine.UI.dll</HintPath>
-            <Publicize>true</Publicize>
-        </Reference>
-        <!-- figure out a better way to reference this later -->
-        <Reference Include="Microsoft.CSharp">
-          <HintPath>..\..\..\.nuget\packages\microsoft.netframework.referenceassemblies.net472\1.0.2\build\.NETFramework\v4.7.2\Microsoft.CSharp.dll</HintPath>
         </Reference>
         <Reference Include="SpinCore">
             <HintPath>$(BaseGameDir)\BepInEx\plugins\SpinCore.dll</HintPath>
