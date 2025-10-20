@@ -87,7 +87,15 @@ public partial class Plugin : BaseUnityPlugin
 
     private static void ToggleMute(bool state)
     {
+        bool oldState = StatusMenu.IsAudible;
         StatusMenu.IsAudible = state;
+
+        if (oldState == state)
+        {
+            // no need to change, states didn't actually change
+            return;
+        }
+        
         StatusMenu.UpdateToggle();
         
         if (StatusMenu.AudibleToggle == null)
