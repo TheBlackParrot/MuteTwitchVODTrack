@@ -14,8 +14,6 @@ Audible songs are saved in a JSON file (as an array of file references) in `Spin
 - Any version of OBS equal to or newer than 28.0.0
   - *(older versions may work if you use a compatible version of the v5 WebSocket plugin)*
 
-*todo: add a connection indicator lol*
-
 ---
 
 **Project includes source files from [websocket-sharp](https://github.com/sta/websocket-sharp/tree/01a1a7559f21e38af1045a1ae1e8c123416b6df3), licensed under MIT**
