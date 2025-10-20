@@ -32,6 +32,8 @@ public partial class Plugin : BaseUnityPlugin
         
         TranslationHelper.AddTranslation($"{nameof(MuteTwitchVODTrack)}_PanelHeaderText", "Twitch VOD Track Status");
         TranslationHelper.AddTranslation($"{nameof(MuteTwitchVODTrack)}_{nameof(StatusMenu.IsAudible)}", "Is audible in VOD");
+        TranslationHelper.AddTranslation($"{nameof(MuteTwitchVODTrack)}_IsConnected", "Connected to OBS");
+        TranslationHelper.AddTranslation($"{nameof(MuteTwitchVODTrack)}_IsNotConnected", "Disconnected from OBS");
         
         if (File.Exists(ReferenceListPath))
         {

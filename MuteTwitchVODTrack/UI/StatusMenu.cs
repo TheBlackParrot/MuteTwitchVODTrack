@@ -14,6 +14,9 @@ internal static class StatusMenu
 {
     internal static CustomSidePanel? StatusMenuPanel;
     internal static CustomMultiChoice? AudibleToggle;
+
+    internal static CustomTextComponent? IsConnectedLabel;
+    internal static CustomTextComponent? IsNotConnectedLabel;
     
     internal static bool IsAudible;
 
@@ -51,6 +54,17 @@ internal static class StatusMenu
     private static void StatusMenuPanelOnSidePanelLoaded(Transform panelTransform)
     {
         StatusMenuPanel!.OnSidePanelLoaded -= StatusMenuPanelOnSidePanelLoaded;
+
+        CustomGroup statusMenuConnectionIndicatorGroup =
+            UIHelper.CreateGroup(panelTransform, "StatusMenuConnectionIndicatorGroup");
+        statusMenuConnectionIndicatorGroup.LayoutDirection = Axis.Horizontal;
+        
+        IsConnectedLabel = UIHelper.CreateLabel(statusMenuConnectionIndicatorGroup,
+            "StatusMenuIsConnectedLabel", $"{nameof(MuteTwitchVODTrack)}_IsConnected");
+        IsNotConnectedLabel = UIHelper.CreateLabel(statusMenuConnectionIndicatorGroup,
+            "StatusMenuIsNotConnectedLabel", $"{nameof(MuteTwitchVODTrack)}_IsNotConnected");
+        IsConnectedLabel.GameObject.SetActive(ObsConnection.IsSuccessfullyConnected);
+        IsNotConnectedLabel.GameObject.SetActive(!ObsConnection.IsSuccessfullyConnected);
         
         CustomGroup statusMenuOptionsGroup = UIHelper.CreateGroup(panelTransform, "StatusMenuOptionsGroup");
         statusMenuOptionsGroup.LayoutDirection = Axis.Horizontal;

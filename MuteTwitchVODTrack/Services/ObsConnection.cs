@@ -14,7 +14,21 @@ namespace MuteTwitchVODTrack.Services;
 
 internal abstract class ObsConnection
 {
+    private static bool _isSuccessfullyConnected;
+    internal static bool IsSuccessfullyConnected
+    {
+        get => _isSuccessfullyConnected;
+        private set
+        {
+            _isSuccessfullyConnected = value;
+            
+            StatusMenu.IsConnectedLabel?.GameObject.SetActive(value);
+            StatusMenu.IsNotConnectedLabel?.GameObject.SetActive(!value);
+        }
+    }
+
     private static WebSocket? _webSocket;
+    
     internal static void Initialize()
     {
         if (_webSocket != null)
@@ -40,7 +54,9 @@ internal abstract class ObsConnection
     private static void OnClose(object sender, CloseEventArgs e)
     {
         Plugin.Log.LogInfo($"Connection to OBS closed: {e.Reason} (code {e.Code})");
+        
         _webSocket = null;
+        IsSuccessfullyConnected = false;
 
         switch (e.Code)
         {
@@ -78,6 +94,7 @@ internal abstract class ObsConnection
             
             case 2:
                 Plugin.Log.LogInfo("Identification was successful");
+                IsSuccessfullyConnected = true;
                 break;
             
             case 5:
