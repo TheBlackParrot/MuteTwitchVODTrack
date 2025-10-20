@@ -71,20 +71,31 @@ internal static class StatusMenu
         AudibleToggle = UIHelper.CreateSmallToggle(statusMenuOptionsGroup, "IsAudibleToggle",
             $"{nameof(MuteTwitchVODTrack)}_{nameof(IsAudible)}", IsAudible, value =>
             {
+                if (XDSelectionListMenu.Instance._previewTrackDataSetup.Item1 == null)
+                {
+                    return;
+                }
+                
                 string safeFileReference =
                     Plugin.GetSafeFileReferenceString(XDSelectionListMenu.Instance._previewTrackDataSetup.Item1);
 
+                bool changed = false;
                 if (Plugin.ReferenceList.Contains(safeFileReference) && !value)
                 {
+                    changed = true;
                     Plugin.ReferenceList.Remove(safeFileReference);
                 }
                 if(!Plugin.ReferenceList.Contains(safeFileReference) && value)
                 {
+                    changed = true;
                     Plugin.ReferenceList.Add(safeFileReference);
                 }
-                
-                File.WriteAllText(Plugin.ReferenceListPath, JsonConvert.SerializeObject(Plugin.ReferenceList));
-                
+
+                if (changed)
+                {
+                    File.WriteAllText(Plugin.ReferenceListPath, JsonConvert.SerializeObject(Plugin.ReferenceList));
+                }
+
                 IsAudible = value;
                 ObsConnection.SendVodAudibleStatus();
             });
