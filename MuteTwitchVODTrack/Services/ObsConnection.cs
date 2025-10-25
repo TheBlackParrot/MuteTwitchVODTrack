@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MuteTwitchVODTrack.Classes;
+using MuteTwitchVODTrack.Patches;
 using MuteTwitchVODTrack.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -182,6 +183,11 @@ internal abstract class ObsConnection
 #if DEBUG
                 Plugin.Log.LogInfo($"Track {Plugin.ActiveVodTrack.Value} {(active.GetActiveVodTrack ? "is audible" : "is not audible")}");
 #endif
+                if (CheckSelectionListPatches.PreviousMetadataHandle != PreviousMetadataHandle)
+                {
+                    break;
+                }
+                
                 StatusMenu.IsAudible = active.GetActiveVodTrack;
                 StatusMenu.UpdateToggle();
                 break;
@@ -189,6 +195,7 @@ internal abstract class ObsConnection
     }
 
     private static CancellationTokenSource? _previousTokenSource;
+    internal static MetadataHandle? PreviousMetadataHandle;
     public static async Task SendVodAudibleStatus()
     {
         if (_previousTokenSource is { Token.CanBeCanceled: true })
@@ -217,6 +224,8 @@ internal abstract class ObsConnection
         // delaying slightly to better time audible audio changes
         _previousTokenSource = tokenSource;
         await Task.Delay(500, tokenSource.Token);
+
+        PreviousMetadataHandle = CheckSelectionListPatches.PreviousMetadataHandle;
         
 #if DEBUG
         string serialized = JsonConvert.SerializeObject(request);

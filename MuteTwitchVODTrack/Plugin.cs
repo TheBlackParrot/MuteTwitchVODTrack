@@ -3,6 +3,7 @@ using System.IO;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using MuteTwitchVODTrack.Patches;
 using MuteTwitchVODTrack.Services;
 using MuteTwitchVODTrack.UI;
 using Newtonsoft.Json;
@@ -107,6 +108,9 @@ public partial class Plugin : BaseUnityPlugin
 
     private static void TrackOnStartedPlayingTrack(PlayableTrackDataHandle handle, PlayState[] _)
     {
-        CheckIfVodShouldMute(handle.setup.TrackDataSegmentForSingleTrackDataSetup.metadata);
+        MetadataHandle metadataHandle = handle.setup.TrackDataSegmentForSingleTrackDataSetup.metadata;
+        
+        CheckSelectionListPatches.PreviousMetadataHandle = metadataHandle;
+        CheckIfVodShouldMute(metadataHandle);
     }
 }

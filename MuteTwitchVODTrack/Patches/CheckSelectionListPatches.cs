@@ -6,6 +6,7 @@ namespace MuteTwitchVODTrack.Patches;
 internal class CheckSelectionListPatches
 {
     private static string _lastUniqueName = string.Empty;
+    internal static MetadataHandle? PreviousMetadataHandle;
     
     [HarmonyPatch(typeof(XDSelectionListMenu), nameof(XDSelectionListMenu.UpdatePreviewHandle))]
     [HarmonyPostfix]
@@ -20,6 +21,8 @@ internal class CheckSelectionListPatches
         {
             return;
         }
+        
+        PreviousMetadataHandle = __instance._previewTrackDataSetup.Item1;
         
         _lastUniqueName = __instance._previewTrackDataSetup.Item1.UniqueName;
         Plugin.CheckIfVodShouldMute(__instance._previewTrackDataSetup.Item1);
