@@ -71,13 +71,23 @@ internal static class StatusMenu
         AudibleToggle = UIHelper.CreateSmallToggle(statusMenuOptionsGroup, "IsAudibleToggle",
             $"{nameof(MuteTwitchVODTrack)}_{nameof(IsAudible)}", IsAudible, value =>
             {
+                MetadataHandle? metadataHandle;
                 if (XDSelectionListMenu.Instance._previewTrackDataSetup.Item1 == null)
                 {
-                    return;
+                    if (Track.PlayHandle.Setup.TrackDataSegmentForSingleTrackDataSetup.metadata == null)
+                    {
+                        return;
+                    }
+
+                    metadataHandle = Track.PlayHandle.Setup.TrackDataSegmentForSingleTrackDataSetup.metadata;
+                }
+                else
+                {
+                    metadataHandle = XDSelectionListMenu.Instance._previewTrackDataSetup.Item1;
                 }
                 
                 string safeFileReference =
-                    Plugin.GetSafeFileReferenceString(XDSelectionListMenu.Instance._previewTrackDataSetup.Item1);
+                    Plugin.GetSafeFileReferenceString(metadataHandle);
 
                 bool changed = false;
                 if (Plugin.ReferenceList.Contains(safeFileReference) && !value)
