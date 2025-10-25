@@ -183,7 +183,7 @@ internal abstract class ObsConnection
 #if DEBUG
                 Plugin.Log.LogInfo($"Track {Plugin.ActiveVodTrack.Value} {(active.GetActiveVodTrack ? "is audible" : "is not audible")}");
 #endif
-                if (CheckSelectionListPatches.PreviousMetadataHandle != PreviousMetadataHandle)
+                if (CheckSelectionListPatches.PreviousMetadataHandle != _previousMetadataHandle)
                 {
                     break;
                 }
@@ -195,7 +195,7 @@ internal abstract class ObsConnection
     }
 
     private static CancellationTokenSource? _previousTokenSource;
-    internal static MetadataHandle? PreviousMetadataHandle;
+    private static MetadataHandle? _previousMetadataHandle;
     public static async Task SendVodAudibleStatus()
     {
         if (_previousTokenSource is { Token.CanBeCanceled: true })
@@ -225,7 +225,7 @@ internal abstract class ObsConnection
         _previousTokenSource = tokenSource;
         await Task.Delay(500, tokenSource.Token);
 
-        PreviousMetadataHandle = CheckSelectionListPatches.PreviousMetadataHandle;
+        _previousMetadataHandle = CheckSelectionListPatches.PreviousMetadataHandle;
         
 #if DEBUG
         string serialized = JsonConvert.SerializeObject(request);
