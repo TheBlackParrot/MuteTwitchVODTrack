@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using MuteTwitchVODTrack.Classes;
 using MuteTwitchVODTrack.UI;
@@ -187,8 +188,14 @@ internal abstract class ObsConnection
         }
     }
 
+    private static CancellationTokenSource? _previousTokenSource;
     public static async Task SendVodAudibleStatus()
     {
+        if (_previousTokenSource is { Token.CanBeCanceled: true })
+        {
+            _previousTokenSource.Cancel();
+        }
+        
         ObsRequestMessageRoot request = new()
         {
             Data =
@@ -205,8 +212,11 @@ internal abstract class ObsConnection
             }
         };
 
+        CancellationTokenSource tokenSource = new CancellationTokenSource();
+        
         // delaying slightly to better time audible audio changes
-        await Task.Delay(500);
+        _previousTokenSource = tokenSource;
+        await Task.Delay(500, tokenSource.Token);
         
 #if DEBUG
         string serialized = JsonConvert.SerializeObject(request);
