@@ -97,6 +97,8 @@ internal abstract class ObsConnection
             case 2:
                 Plugin.Log.LogInfo("Identification was successful");
                 IsSuccessfullyConnected = true;
+
+                _ = SendVodAudibleStatus();
                 break;
             
             case 5:
